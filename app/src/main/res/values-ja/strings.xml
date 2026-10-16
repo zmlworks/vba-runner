@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">スクリプト実行環境 (VBA風)</string>
+    <string name="app_label">VBA風</string>
+    <string name="run">▶ 実行</string>
+    <string name="stop">■</string>
+    <string name="menu">メニュー</string>
+    <string name="tab_code">コード</string>
+    <string name="tab_sheet">シート</string>
+    <string name="tab_form">フォーム</string>
+    <string name="editor_hint">// VBA風ヘルパー付き JavaScript\n// function Main() { Cells(1,1).Value = "こんにちは"; }</string>
+    <string name="cell_hint">セルの値</string>
+    <string name="immediate">イミディエイト</string>
+    <string name="clear">クリア</string>
+    <string name="stopped">停止しました。</string>
+    <string name="done_ok">— 終了 (%1$d ms)</string>
+    <string name="error_prefix">エラー: %1$s</string>
+    <string name="btn_cancel">キャンセル</string>
+    <string name="btn_yes">はい</string>
+    <string name="btn_no">いいえ</string>
+    <string name="btn_abort">中止</string>
+    <string name="btn_retry">再試行</string>
+    <string name="btn_ignore">無視</string>
+    <string name="open_as_script">スクリプトとして開く</string>
+    <string name="untitled">無題</string>
+    <string name="m_new">新規スクリプト</string>
+    <string name="m_open">開く…</string>
+    <string name="m_save">上書き保存</string>
+    <string name="m_save_as">名前を付けて保存…</string>
+    <string name="m_samples">サンプル…</string>
+    <string name="m_export">スクリプトをファイルに書き出す…</string>
+    <string name="m_import">スクリプトをファイルから読み込む…</string>
+    <string name="m_share">スクリプトを共有</string>
+    <string name="m_sheet_save">シートに名前を付けて保存…</string>
+    <string name="m_sheet_open">シートを開く…</string>
+    <string name="m_sheet_export">シートをCSVで書き出す…</string>
+    <string name="m_sheet_import">CSVをシートに読み込む…</string>
+    <string name="m_sheet_share">シートCSVを共有</string>
+    <string name="m_sheet_clear">シートをクリア</string>
+    <string name="m_delete">保存済みを削除…</string>
+    <string name="m_help">APIヘルプ</string>
+    <string name="name_prompt">名前</string>
+    <string name="saved">保存しました: %1$s</string>
+    <string name="nothing_saved">保存されたものはありません。</string>
+    <string name="confirm_discard">未保存の変更を破棄しますか?</string>
+    <string name="deleted">削除しました: %1$s</string>
+    <string name="io_error">入出力エラー: %1$s</string>
+    <string name="imported">読み込みました。</string>
+    <string name="help_title">API (VBA風 JavaScript)</string>
+    <string name="help_text">スクリプトは JavaScript です。トップレベルのコードを実行し、Main() があれば続けて呼び出します。\n\nCells(行, 列).Value — セルの読み書き (1始まり)\nRange("A1").Value、Range("A1:C3").Value = [[…]]\n.Offset(行, 列)  .Address  .ClearContents()  .forEach(fn)\nSheet.Clear()  Sheet.LastRow("A")\nWorksheetFunction.Sum / Average / Max / Min / Count / CountA\n\nMsgBox(文字列, vbYesNo, タイトル) → vbYes / vbNo …\nInputBox(文字列, タイトル, 既定値) → 文字列 (キャンセル時 "")\nDebug.Print a, b, …\n\nUserForm.Clear() / Show()\nUserForm.AddLabel(文字列)\nUserForm.AddTextBox(名前, 値) → .Value\nUserForm.AddButton(表題, function(){ … })\n\nLen Left Right Mid InStr Replace Split Join UCase LCase Trim\nCStr CInt CLng CDbl Val IsNumeric IsEmpty Int Fix Abs Sqr Rnd Round\nFormat(x, "#,##0.00")  Format(Now(), "yyyy/mm/dd hh:nn:ss")\nColumnLetter(3)  ColumnNumber("C")\n\nサンドボックス: ネットワーク・ファイルアクセスなし。■ でスクリプトを強制停止します。</string>
+</resources>

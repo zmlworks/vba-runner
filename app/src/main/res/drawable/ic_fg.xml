@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- grid sheet with a "play" triangle -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:strokeColor="#C6CFC6" android:strokeWidth="2.5" android:fillColor="#00000000"
+        android:pathData="M30,32h48v44h-48z M30,43h48 M30,54h48 M30,65h48 M42,32v44 M54,32v44 M66,32v44"/>
+    <path android:fillColor="#00A2E8" android:pathData="M58,52 L80,64 L58,76 Z"/>
+    <path android:fillColor="#C6CFC6" android:pathData="M30,32h12v11h-12z"/>
+</vector>

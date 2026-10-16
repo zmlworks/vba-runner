@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VBA-like Script</string>
+    <string name="app_label">VBA Script</string>
+    <string name="run">▶ Run</string>
+    <string name="stop">■</string>
+    <string name="menu">Menu</string>
+    <string name="menu_glyph" translatable="false">⋮</string>
+    <string name="ok_glyph" translatable="false">✓</string>
+    <string name="tab_code">Code</string>
+    <string name="tab_sheet">Sheet</string>
+    <string name="tab_form">Form</string>
+    <string name="editor_hint">// JavaScript with VBA-style helpers.\n// function Main() { Cells(1,1).Value = "Hello"; }</string>
+    <string name="cell_hint">cell value</string>
+    <string name="immediate">Immediate</string>
+    <string name="clear">Clear</string>
+    <string name="stopped">Stopped.</string>
+    <string name="done_ok">— finished (%1$d ms)</string>
+    <string name="error_prefix">Error: %1$s</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+    <string name="btn_abort">Abort</string>
+    <string name="btn_retry">Retry</string>
+    <string name="btn_ignore">Ignore</string>
+    <string name="open_as_script">Open as script</string>
+    <string name="untitled">untitled</string>
+    <string name="m_new">New script</string>
+    <string name="m_open">Open…</string>
+    <string name="m_save">Save</string>
+    <string name="m_save_as">Save as…</string>
+    <string name="m_samples">Samples…</string>
+    <string name="m_export">Export script (file)…</string>
+    <string name="m_import">Import script (file)…</string>
+    <string name="m_share">Share script</string>
+    <string name="m_sheet_save">Save sheet as…</string>
+    <string name="m_sheet_open">Open sheet…</string>
+    <string name="m_sheet_export">Export sheet CSV…</string>
+    <string name="m_sheet_import">Import sheet CSV…</string>
+    <string name="m_sheet_share">Share sheet CSV</string>
+    <string name="m_sheet_clear">Clear sheet</string>
+    <string name="m_delete">Delete saved…</string>
+    <string name="m_help">API help</string>
+    <string name="name_prompt">Name</string>
+    <string name="saved">Saved: %1$s</string>
+    <string name="nothing_saved">Nothing saved yet.</string>
+    <string name="confirm_discard">Discard unsaved changes?</string>
+    <string name="deleted">Deleted: %1$s</string>
+    <string name="io_error">I/O error: %1$s</string>
+    <string name="imported">Imported.</string>
+    <string name="help_title">API (VBA-style JavaScript)</string>
+    <string name="help_text">Scripts are JavaScript. Top-level code runs, then Main() if defined.\n\nCells(r, c).Value  — read/write a cell (1-based)\nRange("A1").Value, Range("A1:C3").Value = [[…]]\n.Offset(r, c)  .Address  .ClearContents()  .forEach(fn)\nSheet.Clear()  Sheet.LastRow("A")\nWorksheetFunction.Sum / Average / Max / Min / Count / CountA\n\nMsgBox(text, vbYesNo, title) → vbYes / vbNo …\nInputBox(text, title, default) → string ("" on cancel)\nDebug.Print a, b, …\n\nUserForm.Clear() / Show()\nUserForm.AddLabel(text)\nUserForm.AddTextBox(name, value) → .Value\nUserForm.AddButton(caption, function(){ … })\n\nLen Left Right Mid InStr Replace Split Join UCase LCase Trim\nCStr CInt CLng CDbl Val IsNumeric IsEmpty Int Fix Abs Sqr Rnd Round\nFormat(x, "#,##0.00") Format(Now(), "yyyy/mm/dd hh:nn:ss")\nColumnLetter(3) ColumnNumber("C")\n\nSandbox: no network, no file access. ■ kills the script.</string>
+</resources>
