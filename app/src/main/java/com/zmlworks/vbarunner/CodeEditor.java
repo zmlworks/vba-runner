@@ -12,11 +12,13 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.EditText;
 
-/** Monospace EditText with a line-number gutter, no wrapping, and auto-indent on Enter. */
+/** Monospace EditText with a line-number gutter, no wrapping, VBA auto-indent on Enter and an error-line marker. */
 public final class CodeEditor extends EditText {
     private final Paint num = new Paint(Paint.ANTI_ALIAS_FLAG), gutter = new Paint();
     private final float gap;
     private boolean indenting;
+    private int errorLine;
+    private final Paint errPaint = new Paint();
 
     public CodeEditor(Context c, AttributeSet a) {
         super(c, a);
@@ -32,6 +34,7 @@ public final class CodeEditor extends EditText {
         num.setColor(Ui.DIM);
         num.setTextAlign(Paint.Align.RIGHT);
         gutter.setColor(0xFF00140E);
+        errPaint.setColor(Ui.ACCENT);
         addTextChangedListener(new TextWatcher() {
             int at = -1;
             @Override public void beforeTextChanged(CharSequence s, int st, int cnt, int after) {}
@@ -46,7 +49,7 @@ public final class CodeEditor extends EditText {
                 int le = ls;
                 while (le < at && (e.charAt(le) == ' ' || e.charAt(le) == '\t')) le++;
                 String ind = e.subSequence(ls, le).toString();
-                if (at > 0 && e.charAt(at - 1) == '{') ind += "  ";
+                if (opensBlock(e.subSequence(le, at).toString())) ind += "    ";
                 if (!ind.isEmpty()) { indenting = true; e.insert(at + 1, ind); indenting = false; }
                 at = -1;
             }
@@ -84,7 +87,10 @@ public final class CodeEditor extends EditText {
                 int s = l.getLineStart(i);
                 if (i == first || (s > 0 && t.charAt(s - 1) == '\n')) {
                     if (i != first) n++;
-                    num.setColor(Ui.DIM);
+                    if (n == errorLine) {
+                        cv.drawRect(sx, getPaddingTop() + l.getLineTop(i), sx + getPaddingLeft() - gap / 2, getPaddingTop() + l.getLineBottom(i), errPaint);
+                        num.setColor(Ui.ERR);
+                    } else num.setColor(Ui.DIM);
                     cv.drawText(String.valueOf(n), sx + getPaddingLeft() - gap, getPaddingTop() + l.getLineBaseline(i), num);
                 }
             }
@@ -99,6 +105,52 @@ public final class CodeEditor extends EditText {
         while (n < line && pos < t.length()) { if (t.charAt(pos) == '\n') n++; pos++; }
         requestFocus();
         setSelection(Math.min(pos, t.length()));
+    }
+
+    /** Lines after which Enter adds one indent level (Sub, If … Then, For, Do, Select Case, Case, Else …). */
+    static boolean opensBlock(String line) {
+        String t = line.trim();
+        int q = -1;
+        boolean inStr = false;
+        for (int i = 0; i < t.length(); i++) {
+            char c = t.charAt(i);
+            if (c == '"') inStr = !inStr;
+            else if (c == '\'' && !inStr) { q = i; break; }
+        }
+        if (q >= 0) t = t.substring(0, q).trim();
+        String l = t.toLowerCase(java.util.Locale.ROOT);
+        if (l.startsWith("private ")) l = l.substring(8);
+        if (l.startsWith("public ")) l = l.substring(7);
+        if (l.startsWith("sub ") || l.startsWith("function ")) return true;
+        if ((l.startsWith("if ") || l.startsWith("elseif ")) && l.endsWith(" then")) return true;
+        if (l.equals("else") || l.startsWith("for ") || l.equals("do") || l.startsWith("do ") || l.startsWith("while ")
+                || l.startsWith("select case") || (l.startsWith("case ") && !l.contains(":"))) return true;
+        return false;
+    }
+
+    public void setErrorLine(int line) {
+        if (line != errorLine) { errorLine = line; invalidate(); }
+    }
+
+    /** Leading whitespace of the line containing the cursor. */
+    public String currentIndent() {
+        CharSequence t = getText();
+        int p = Math.max(0, getSelectionStart());
+        int ls = p;
+        while (ls > 0 && t.charAt(ls - 1) != '\n') ls--;
+        int le = ls;
+        while (le < t.length() && (t.charAt(le) == ' ' || t.charAt(le) == '\t')) le++;
+        return t.subSequence(ls, le).toString();
+    }
+
+    /** Insert before + after around the cursor and leave the cursor between them. */
+    public void insertTemplate(String before, String after) {
+        int a = Math.max(0, getSelectionStart()), b = Math.max(0, getSelectionEnd());
+        int st = Math.min(a, b);
+        indenting = true;
+        getText().replace(st, Math.max(a, b), before + after);
+        indenting = false;
+        setSelection(st + before.length());
     }
 
     public void insertAtCursor(String s) {
