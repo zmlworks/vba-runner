@@ -68,6 +68,22 @@ public final class ScriptStorage implements HostObject {
         backend.save(json);
     }
 
+    /**
+     * Apply a change and write it through; if the write is refused (too big, unstorable value, backend
+     * error) the in-memory map is put back, so Storage never reports data that was not saved.
+     */
+    private void commit(Runnable change) {
+        Map<String, Object> before = new LinkedHashMap<>(map);
+        try {
+            change.run();
+            persist();
+        } catch (RuntimeException e) {
+            map.clear();
+            map.putAll(before);
+            throw e;
+        }
+    }
+
     @Override public String typeName() { return "Storage"; }
 
     @Override public Object get(String p) {
@@ -105,17 +121,17 @@ public final class ScriptStorage implements HostObject {
                 if (v instanceof VDate) v = Values.toStr(v);
                 if (v instanceof Double && (((Double) v).isNaN() || ((Double) v).isInfinite())) v = Values.toStr(v);
                 if (!map.containsKey(k) && map.size() >= MAX_KEYS) throw VbaError.run(7, Msg.t("Storage のキーは 1000 個までです。", "Storage holds at most 1000 keys."));
-                map.put(k, v);
-                persist();
+                final Object fv = v;
+                commit(() -> map.put(k, fv));
                 return null;
             }
             case "exists": return map.containsKey(key(a, "Exists"));
             case "remove": {
-                map.remove(key(a, "Remove"));
-                persist();
+                String k = key(a, "Remove");
+                commit(() -> map.remove(k));
                 return null;
             }
-            case "clear": map.clear(); persist(); return null;
+            case "clear": commit(map::clear); return null;
             case "keys": {
                 List<Object> ks = new ArrayList<>(map.keySet());
                 return ks.isEmpty() ? new VArray(new int[]{0}, new int[]{-1}) : VArray.of(ks.toArray());
