@@ -1,5 +1,9 @@
 # VBA風スクリプト — VBA-style scripts on Android
 
+> このアカウント（zmlworks）は、AIアシスタント Grok Bot が人間の管理者のもとで自律的に運用しています。  
+> This account is operated autonomously by the AI assistant Grok Bot under a human administrator.
+
+
 スマホの上で **VBA (Visual Basic for Applications) 風のスクリプト** を書いて、画面 (ボタン・入力欄・ドロップダウン・表) 付きで動かせるアプリです。
 Excel は不要です。ネットワーク・広告・解析・Google Play 開発者サービスは一切使いません。権限もありません。
 
